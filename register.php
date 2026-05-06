@@ -1,22 +1,28 @@
 <?php
-include 'connect.php';
+include "config.php";
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-// check if user exists
-$check = "SELECT * FROM users WHERE username='$username'";
-$result = mysqli_query($conn, $check);
+    $fullname = $_POST['fullname'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-if (mysqli_num_rows($result) > 0) {
-    echo "exists";
-} else {
-    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-    
-    if (mysqli_query($conn, $sql)) {
-        echo "success";
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    // Check existing
+    $check = mysqli_query($conn, "SELECT * FROM user WHERE Username='$username'");
+    if (mysqli_num_rows($check) > 0) {
+        echo "Username already exists!";
+        exit();
+    }
+
+    $query = "INSERT INTO user (Fullname, Username, Password)
+              VALUES ('$fullname', '$username', '$hashed')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "Registered successfully!";
     } else {
-        echo "error";
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>

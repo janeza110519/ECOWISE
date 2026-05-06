@@ -1,15 +1,31 @@
 <?php
-include 'connect.php';
+session_start();
+include "config.php";
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-$result = mysqli_query($conn, $sql);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-if (mysqli_num_rows($result) > 0) {
-    echo "success";
-} else {
-    echo "invalid";
+    $query = "SELECT * FROM user WHERE Username='$username'";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) == 1) {
+
+        $user = mysqli_fetch_assoc($result);
+
+        if (password_verify($password, $user['Password'])) {
+
+            $_SESSION['user'] = $user['Username'];
+            header("Location: dashboard.php");
+            exit();
+
+        } else {
+            echo "Invalid password";
+        }
+
+    } else {
+        echo "User not found";
+    }
 }
 ?>

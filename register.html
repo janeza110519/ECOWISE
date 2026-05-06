@@ -75,8 +75,10 @@
     <h3>Confirm Password</h3>
     <input type="password" id="confirmPassword">
 
-    <button onclick="register()"><b>Sign In</b></button>
-    <button onclick="goLogin()"><b>Back to Login</b></button>
+    <button type="submit"><b>Sign In</b></button>
+    <a href="login.html">
+      <button onclick="goLogin()"><b>Back to Login</b></button>
+    </a>
   </div>
 
 </div>
@@ -87,29 +89,36 @@ function register() {
   let password = document.getElementById("password").value;
   let confirm = document.getElementById("confirmPassword").value;
 
-  if (password !== confirm) {
-    alert("Password do not match");
+  if (username === "" || password === "") {
+    alert("Please fill all fields");
     return;
   }
 
-  fetch("http://localhost/ecoweb/register.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: `username=${username}&password=${password}`
-  })
-  .then(res => res.text())
-  .then(data => {
-    if(data === "Success") {
-      alert("Registered!");
-      window.location.href = "login.html";
-    } else if (data === "exist") {
-      alert("Username already exists!");
-    } else {
-      alert("Error!");
-    }
-  });
+  if (password !== confirm) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  // Get existing users
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Check if username already exists
+  let exists = users.find(user => user.username === username);
+  if (exists) {
+    alert("Username already exists!");
+    return;
+  }
+
+  // Save new user
+  users.push({ username: username, password: password });
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Registered successfully!");
+  window.location.href = "login.html";
+}
+
+function goLogin() {
+  window.location.href = "login.html";
 }
 </script>
 
