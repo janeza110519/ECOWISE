@@ -57,7 +57,7 @@
   
   <div class="left">
     <img src="logo.jpg">
-    <h2>EcoWise</h2>
+    <h2><i>EcoWise</i></h2>
   </div>
 
   <div class="right">
@@ -78,29 +78,23 @@ function login() {
   let username = document.querySelector("input[type='text']").value;
   let password = document.querySelector("input[type='password']").value;
 
-  if (username === "" || password === "") {
-    alert("Please fill all fields");
-    return;
-  }
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-
-  // Check if user exists
-  let user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    // Save logged-in user
-    localStorage.setItem("currentUser", username);
-
-    alert("Login successful!");
+ fetch("http://localhost/ecoweb/login.php", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: `username=${username}$password=${password}`
+ })
+ .then(res => res.text())
+ .then(data => {
+  if (data === "Success") {
+    localStorage.setItem("CurrentUser, username");
     window.location.href = "dashboard.html";
-  } else {
+  }else {
+    alert("Invalid Login");
 
   }
-}
-
-function goRegister() {
-  window.location.href = "register.html";
+ });
 }
 </script>
 
