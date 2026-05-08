@@ -73,17 +73,67 @@ EcoWise Dashboard
 <?php echo $_SESSION['user']; ?>
 </p>
 
+
+<hr>
+
+<h3>Maps</h3>
+<select id="location">
+    <option>Tankulan</option>
+    <option>Sankanan</option>
+    <option>Damilag</option>
+</select>
+
+<h3>Set Day</h3>
+<select id="day">
+    <option>Monday</option>
+    <option>Tuesday</option>
+    <option>Wednesday</option>
+    <option>Thursday</option>
+    <option>Friday</option>
+    <option>Saturday</option>
+    <option>Sunday</option>
+</select>
+
+<h3>Target</h3>
+<select id="target">
+    <option>Recyclable</option>
+    <option>Biodegradable</option>
+    <option>Non-Biodegradable</option>
+</select>
+
+<h3>Importance</h3>
+<select id="importance">
+    <option>Priority</option>
+    <option>Non-Priority</option>
+</select>
+
+<button onclick="addTask()">Set</button>
+
 <a href="logout.php">
 <button>Logout</button>
 </a>
 
 </div>
 
+
 <div class="main">
 
-<h2>Successfully Logged In!</h2>
+<h2>List of Task</h2>
 
-<p>Your dashboard is now connected.</p>
+<table border="1" width="100%" id="taskTable">
+    <tr>
+        <th>Location</th>
+        <th>Day</th>
+        <th>Target</th>
+        <th>Importance</th>
+        <th>Status</th>
+    </tr>
+</table>
+
+<br>
+
+<button onclick="markDone()">Done</button>
+<button onclick="deleteTask()">Delete</button>
 
 </div>
 
