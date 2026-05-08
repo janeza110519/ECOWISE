@@ -1,54 +1,109 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>EcoWise Register</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #2ecc71;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
 
-    .container {
-      display: flex;
-      width: 600px;
-      background: #2ecc71;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    .left {
-      width: 40%;
-      background: #0f6b5b;
-      color: white;
-      text-align: center;
-      padding: 30px;
-    }
+body{
+    font-family:Arial;
+    background:#2ecc71;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
 
-    .left img {
-      width: 100px;
-    }
+.container{
+    width:100%;
+    max-width:900px;
+    display:flex;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
 
-    .right {
-      width: 60%;
-      padding: 30px;
-    }
+.left{
+    width:40%;
+    background:#0f6b5b;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-    }
+.left img{
+    width:120px;
+    margin-bottom:15px;
+}
 
-    button {
-      padding: 10px 20px;
-      margin: 10px 5px;
-      cursor: pointer;
-    }
-  </style>
+.right{
+    width:60%;
+    padding:40px;
+    background:#2ecc71;
+}
+
+.right h1{
+    margin-bottom:20px;
+    color:white;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+    outline:none;
+}
+
+button,
+input[type="submit"]{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:#0f6b5b;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover,
+input[type="submit"]:hover{
+    background:#095346;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.container{
+    flex-direction:column;
+}
+
+.left{
+    width:100%;
+    padding:30px;
+}
+
+.right{
+    width:100%;
+}
+
+}
+
+</style>
 </head>
 
 <body>
@@ -56,13 +111,13 @@
 <div class="container">
   
   <!-- LEFT SIDE -->
-  <!--<div class="left">
+  <div class="left">
     <img src="logo.png">
     <h2>EcoWise</h2>
   </div>
 
   <!-- RIGHT SIDE -->
-  <!--<div class="right">
+  <div class="right">
 
 <form method="POST" action="register.php">
 
