@@ -112,6 +112,7 @@ button{
     <h1>EcoWise</h1>
 </div>
 
+
 <div class="right">
 
 <form method="POST" action="register.php">
