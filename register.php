@@ -118,27 +118,7 @@ button{
 <form method="POST" action="register.php">
 
 <h3>Fullname</h3>
-<input type="text" name="fullname" required>
 
-<h3>Username</h3>
-<input type="text" name="username" required>
-
-<h3>Password</h3>
-<input type="password" name="password" required>
-
-<h3>Confirm Password</h3>
-<input type="password" name="confirmPassword" required>
-
-<input type="submit" value="Register">
-
-<button type="button"
-onclick="window.location.href='login.php'">
-Back to Login
-</button>
-
-</form><form method="POST" action="register.php">
-
-<h3>Fullname</h3>
 <input type="text" name="fullname" required>
 
 <h3>Username</h3>
