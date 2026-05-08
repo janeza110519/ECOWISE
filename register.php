@@ -114,7 +114,7 @@ button{
 
 <div class="right">
 
-<form method="POST">
+<form method="POST" action="register.php">
 
 <h3>Fullname</h3>
 <input type="text" name="fullname" required>
@@ -128,11 +128,33 @@ button{
 <h3>Confirm Password</h3>
 <input type="password" name="confirmPassword" required>
 
-<button type="submit"><b>Register</b></button>
+<input type="submit" value="Register">
 
-<a href="login.php">
-<button type="button"><b>Back to Login</b></button>
-</a>
+<button type="button"
+onclick="window.location.href='login.php'">
+Back to Login
+</button>
+
+</form><form method="POST" action="register.php">
+
+<h3>Fullname</h3>
+<input type="text" name="fullname" required>
+
+<h3>Username</h3>
+<input type="text" name="username" required>
+
+<h3>Password</h3>
+<input type="password" name="password" required>
+
+<h3>Confirm Password</h3>
+<input type="password" name="confirmPassword" required>
+
+<input type="submit" value="Register">
+
+<button type="button"
+onclick="window.location.href='login.php'">
+Back to Login
+</button>
 
 </form>
 
