@@ -63,64 +63,31 @@
 
   <!-- RIGHT SIDE -->
   <div class="right">
-    <h3>Fullname</h3>
-    <input type="text" id="fullname">
 
-    <h3>Username</h3>
-    <input type="text" id="username">
+<form method="POST" action="register.php">
 
-    <h3>Password</h3>
-    <input type="password" id="password">
+  <h3>Fullname</h3>
+  <input type="text" name="fullname" required>
 
-    <h3>Confirm Password</h3>
-    <input type="password" id="confirmPassword">
+  <h3>Username</h3>
+  <input type="text" name="username" required>
 
-    <button type="submit"><b>Sign In</b></button>
-    <a href="login.html">
-      <button onclick="goLogin()"><b>Back to Login</b></button>
-    </a>
-  </div>
+  <h3>Password</h3>
+  <input type="password" name="password" required>
+
+  <h3>Confirm Password</h3>
+  <input type="password" name="confirmPassword" required>
+
+  <button type="submit"><b>Sign In</b></button>
+
+</form>
+
+<a href="login.html">
+  <button type="button"><b>Back to Login</b></button>
+</a>
 
 </div>
-
-<script>
-function register() {
-  let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
-  let confirm = document.getElementById("confirmPassword").value;
-
-  if (username === "" || password === "") {
-    alert("Please fill all fields");
-    return;
-  }
-
-  if (password !== confirm) {
-    alert("Passwords do not match");
-    return;
-  }
-
-  // Get existing users
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-
-  // Check if username already exists
-  let exists = users.find(user => user.username === username);
-  if (exists) {
-    alert("Username already exists!");
-    return;
-  }
-
-  // Save new user
-  users.push({ username: username, password: password });
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Registered successfully!");
-  window.location.href = "login.html";
-}
-
-function goLogin() {
-  window.location.href = "login.html";
-}
-</script>
+</div>
 
 </body>
 </html>

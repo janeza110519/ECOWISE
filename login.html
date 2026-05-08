@@ -61,44 +61,26 @@
   </div>
 
   <div class="right">
-    <h3>Username</h3>
-    <input type="text">
+    <form method="POST" action="login.php">
 
-    <h3>Password</h3>
-    <input type="password">
+      <h3>Username</h3>
+      <input type="text" name="username" required>
 
-    <button onclick="login()"><b>Login</b></button>
-    <button onclick="goRegister()"><b>Sign Up</b></button>
+      <h3>Password</h3>
+      <input type="password" name="password" required>
+
+      <button type="submit"><b>Login</b></button>
+    </form>
+
+    <a href="register.html">
+      <button type="button"><b>Sign Up</b></button>
+    </a>
   </div>
 
 </div>
 
 <script>
-function login() {
-  let username = document.querySelector("input[type='text']").value;
-  let password = document.querySelector("input[type='password']").value;
-
-  if (username === "" || password === "") {
-    alert("Please fill all fields");
-    return;
-  }
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-
-  // Check if user exists
-  let user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    // Save logged-in user
-    localStorage.setItem("currentUser", username);
-
-    alert("Login successful!");
-    window.location.href = "dashboard.html";
-  } else {
-
-  }
-}
-
+  
 function goRegister() {
   window.location.href = "register.html";
 }
