@@ -134,7 +134,7 @@ button{
 
 <button type="button"
 onclick="window.location.href='login.php'">
-Back to Login
+<b>Back to Login</b>
 </button>
 
 </form>

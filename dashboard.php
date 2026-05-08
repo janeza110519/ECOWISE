@@ -54,13 +54,28 @@ button{
     cursor:pointer;
 }
 
+select {
+    width:100%;
+    padding:5px;
+    margin-bottom:10px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding:10px;
+    text-align:center;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-EcoWise Dashboard
+Eco Wise Dashboard
 </header>
 
 <div class="container">
@@ -135,9 +150,79 @@ EcoWise Dashboard
 <button onclick="markDone()">Done</button>
 <button onclick="deleteTask()">Delete</button>
 
-</div>
+<hr>
+
+<h2>Analytics</h2>
+<canvas id="myChart"></canvas>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// table JS
+let selectedRow = null;
+
+function addTask() {
+    let table = document.getElementById("taskTable");
+
+    let location = document.getElementById("location").value;
+    let day = document.getElementById("day").value;
+    let target = document.getElementById("target").value;
+    let importance = document.getElementById("importance").value;
+
+    let row = table.insertRow();
+
+    row.insertCell(0).innerHTML = location;
+    row.insertCell(1).innerHTML = day;
+    row.insertCell(2).innerHTML = target;
+    row.insertCell(3).innerHTML = importance;
+    row.insertCell(4).innerHTML = "Pending";
+
+    row.onclick = function() {
+        selectedRow = this;
+    }
+}
+
+function markDone() {
+    if (selectedRow) {
+        selectedRow.cells[4].innerHTML = "Accomplished";
+    }
+}
+
+function deleteTask() {
+    if (selectedRow) {
+        selectedRow.remove();
+        selectedRow = null;
+    }
+}
+
+// chart JS
+fetch('chart_data.php')
+.then(response => response.json())
+.then(data => {
+
+    let labels = [];
+    let values = [];
+
+    data.forEach(item => {
+        labels.push(item.Location_Name);
+        values.push(item.total);
+    });
+
+    new Chart(document.getElementById("myChart"), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Accomplished per Barangay',
+                data: values
+            }]
+        }
+    });
+
+});
+</script>
 
 </body>
 </html>
