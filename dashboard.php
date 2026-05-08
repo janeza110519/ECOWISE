@@ -67,7 +67,7 @@ EcoWise Dashboard
 
 <div class="sidebar">
 
-<h3>Welcome</h3>
+<h3><b>Welcome</b></h3>
 
 <p>
 <?php echo $_SESSION['user']; ?>
