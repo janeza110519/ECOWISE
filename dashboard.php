@@ -135,7 +135,7 @@ canvas{
 <body>
 
 <div class="header">
-    Eco Wise
+    EcoWise Dashboard
 </div>
 
 <div class="container">
@@ -146,8 +146,7 @@ canvas{
 <h2>Maps</h2>
 
 <form method="POST">
-
-<select name="location">
+    
 
 <select name="location">
 
