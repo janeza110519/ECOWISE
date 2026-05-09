@@ -1,24 +1,31 @@
 <?php
 include "connect.php";
 
-/*
+$sql = "
 
-we use inner join to combine the task + location table
-to get the REAL NAME of barangay
-*/
+SELECT
+location.Locationname,
+COUNT(*) as total
 
-$sql = "SELECT location.Location_Name, COUNT(*) as total
-        FROM task
-        JOIN location ON task.Location_ID = location.Location_ID
-        WHERE task.Status = 'Accomplished'
-        GROUP BY location.Location_Name";
+FROM task
+
+JOIN location
+ON task.Location_ID = location.Location_ID
+
+WHERE task.Status='Accomplished'
+
+GROUP BY location.Locationname
+
+";
 
 $result = mysqli_query($conn, $sql);
 
 $data = [];
 
-while($row = mysqli_fetch_assoc($result)) {
+while($row = mysqli_fetch_assoc($result)){
+
     $data[] = $row;
+
 }
 
 echo json_encode($data);

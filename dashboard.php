@@ -1,18 +1,50 @@
 <?php
 session_start();
+include "connect.php";
 
 if (!isset($_SESSION['user'])) {
-
     header("Location: login.php");
     exit();
 }
-?>
 
+/*
+GET USER ID
+*/
+$username = $_SESSION['user'];
+
+$userQuery = mysqli_query($conn, "SELECT * FROM user WHERE Username='$username'");
+$userData = mysqli_fetch_assoc($userQuery);
+
+$user_id = $userData['user_id'];
+
+/*
+ADD TASK
+*/
+if(isset($_POST['add_task'])){
+
+    $location = $_POST['location'];
+    $day = $_POST['day'];
+    $target = $_POST['target'];
+    $importance = $_POST['importance'];
+
+    mysqli_query($conn, "
+        INSERT INTO task
+        (User_ID, Location_ID, Day_ID, Target_ID, Importance_ID, Status)
+
+        VALUES
+        ('$user_id','$location','$day','$target','$importance','Pending')
+    ");
+
+    header("Location: dashboard.php");
+}
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<title>EcoWise Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
@@ -22,51 +54,79 @@ body{
     background:#3b6a8a;
 }
 
-header{
-    background:#2ecc71;
-    padding:15px;
-    text-align:center;
-    font-size:30px;
+.header{
+    background:#32d74b;
+    height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#3b0050;
+    font-size:60px;
     font-weight:bold;
+    font-style:italic;
 }
 
 .container{
     display:flex;
-    height:90vh;
+    height:calc(100vh - 140px);
 }
 
 .sidebar{
     width:250px;
-    background:#0f6b5b;
+    background:#006d6d;
     color:white;
     padding:20px;
 }
 
+.sidebar h2{
+    text-align:center;
+}
+
+.sidebar select,
+.sidebar button{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+}
+
 .main{
     flex:1;
+    background:#2f5d83;
     padding:20px;
+    color:white;
+}
+
+.table-box{
     background:white;
+    color:black;
+    padding:10px;
 }
 
-button{
-    padding:10px 20px;
-    margin-top:10px;
-    cursor:pointer;
-}
-
-select {
+table{
     width:100%;
-    padding:5px;
-    margin-bottom:10px;
+    border-collapse:collapse;
 }
 
-table {
-    border-collapse: collapse;
-}
-
-th, td {
+th, td{
+    border:1px solid #ccc;
     padding:10px;
     text-align:center;
+}
+
+.btn-group{
+    margin-top:20px;
+    display:flex;
+    gap:20px;
+}
+
+.btn-group button{
+    padding:10px 30px;
+}
+
+canvas{
+    background:white;
+    margin-top:20px;
+    padding:20px;
 }
 
 </style>
@@ -74,55 +134,92 @@ th, td {
 
 <body>
 
-<header>
-Eco Wise Dashboard
-</header>
+<div class="header">
+    Eco Wise
+</div>
 
 <div class="container">
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-<h3><b>Welcome</b></h3>
+<h2>Maps</h2>
 
-<p>
-<?php echo $_SESSION['user']; ?>
-</p>
+<form method="POST">
 
+<select name="location">
 
-<hr>
+<?php
+$loc = mysqli_query($conn, "SELECT * FROM location");
 
-<h3>Maps</h3>
-<select id="location">
-    <option>Tankulan</option>
-    <option>Sankanan</option>
-    <option>Damilag</option>
+while($row = mysqli_fetch_assoc($loc)){
+?>
+
+<option value="<?= $row['Location_ID']; ?>">
+    <?= $row['Locationname']; ?>
+</option>
+
+<?php } ?>
+
 </select>
 
-<h3>Set Day</h3>
-<select id="day">
-    <option>Monday</option>
-    <option>Tuesday</option>
-    <option>Wednesday</option>
-    <option>Thursday</option>
-    <option>Friday</option>
-    <option>Saturday</option>
-    <option>Sunday</option>
+<h2>Set Day</h2>
+
+<select name="day">
+
+<?php
+$day = mysqli_query($conn, "SELECT * FROM day");
+
+while($row = mysqli_fetch_assoc($day)){
+?>
+
+<option value="<?= $row['Day_ID']; ?>">
+    <?= $row['Dayname']; ?>
+</option>
+
+<?php } ?>
+
 </select>
 
-<h3>Target</h3>
-<select id="target">
-    <option>Recyclable</option>
-    <option>Biodegradable</option>
-    <option>Non-Biodegradable</option>
+<h2>Target</h2>
+
+<select name="target">
+
+<?php
+$target = mysqli_query($conn, "SELECT * FROM target");
+
+while($row = mysqli_fetch_assoc($target)){
+?>
+
+<option value="<?= $row['Target_ID']; ?>">
+    <?= $row['Targetname']; ?>
+</option>
+
+<?php } ?>
+
 </select>
 
-<h3>Importance</h3>
-<select id="importance">
-    <option>Priority</option>
-    <option>Non-Priority</option>
+<h2>Importance</h2>
+
+<select name="importance">
+
+<?php
+$importance = mysqli_query($conn, "SELECT * FROM importance");
+
+while($row = mysqli_fetch_assoc($importance)){
+?>
+
+<option value="<?= $row['Importance_ID']; ?>">
+    <?= $row['Level']; ?>
+</option>
+
+<?php } ?>
+
 </select>
 
-<button onclick="addTask()">Set</button>
+<button type="submit" name="add_task">Set</button>
+
+</form>
 
 <a href="logout.php">
 <button>Logout</button>
@@ -130,74 +227,79 @@ Eco Wise Dashboard
 
 </div>
 
-
+<!-- MAIN -->
 <div class="main">
 
-<h2>List of Task</h2>
+<h1>List of Task</h1>
 
-<table border="1" width="100%" id="taskTable">
-    <tr>
-        <th>Location</th>
-        <th>Day</th>
-        <th>Target</th>
-        <th>Importance</th>
-        <th>Status</th>
-    </tr>
+<div class="table-box">
+
+<table>
+
+<tr>
+    <th>Location</th>
+    <th>Day</th>
+    <th>Target</th>
+    <th>Importance</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+
+<?php
+
+$sql = "
+SELECT *
+FROM task
+JOIN location ON task.Location_ID = location.Location_ID
+JOIN day ON task.Day_ID = day.Day_ID
+JOIN target ON task.Target_ID = target.Target_ID
+JOIN importance ON task.Importance_ID = importance.Importance_ID
+WHERE User_ID = '$user_id'
+";
+
+$result = mysqli_query($conn, $sql);
+
+while($row = mysqli_fetch_assoc($result)){
+?>
+
+<tr>
+
+<td><?= $row['Locationname']; ?></td>
+<td><?= $row['Dayname']; ?></td>
+<td><?= $row['Targetname']; ?></td>
+<td><?= $row['Level']; ?></td>
+<td><?= $row['Status']; ?></td>
+
+<td>
+
+<a href="done.php?id=<?= $row['Task_ID']; ?>">
+<button>Done</button>
+</a>
+
+<a href="delete.php?id=<?= $row['Task_ID']; ?>">
+<button>Delete</button>
+</a>
+
+</td>
+
+</tr>
+
+<?php } ?>
+
 </table>
 
-<br>
-
-<button onclick="markDone()">Done</button>
-<button onclick="deleteTask()">Delete</button>
-
-<hr>
+</div>
 
 <h2>Analytics</h2>
+
 <canvas id="myChart"></canvas>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</div>
 
 <script>
-// table JS
-let selectedRow = null;
 
-function addTask() {
-    let table = document.getElementById("taskTable");
-
-    let location = document.getElementById("location").value;
-    let day = document.getElementById("day").value;
-    let target = document.getElementById("target").value;
-    let importance = document.getElementById("importance").value;
-
-    let row = table.insertRow();
-
-    row.insertCell(0).innerHTML = location;
-    row.insertCell(1).innerHTML = day;
-    row.insertCell(2).innerHTML = target;
-    row.insertCell(3).innerHTML = importance;
-    row.insertCell(4).innerHTML = "Pending";
-
-    row.onclick = function() {
-        selectedRow = this;
-    }
-}
-
-function markDone() {
-    if (selectedRow) {
-        selectedRow.cells[4].innerHTML = "Accomplished";
-    }
-}
-
-function deleteTask() {
-    if (selectedRow) {
-        selectedRow.remove();
-        selectedRow = null;
-    }
-}
-
-// chart JS
 fetch('chart_data.php')
 .then(response => response.json())
 .then(data => {
@@ -206,22 +308,30 @@ fetch('chart_data.php')
     let values = [];
 
     data.forEach(item => {
-        labels.push(item.Location_Name);
+
+        labels.push(item.Locationname);
         values.push(item.total);
+
     });
 
-    new Chart(document.getElementById("myChart"), {
+    new Chart(document.getElementById('myChart'), {
+
         type: 'bar',
+
         data: {
+
             labels: labels,
+
             datasets: [{
                 label: 'Accomplished per Barangay',
                 data: values
             }]
         }
+
     });
 
 });
+
 </script>
 
 </body>
