@@ -149,17 +149,29 @@ canvas{
 
 <select name="location">
 
-<?php
-$loc = mysqli_query($conn, "SELECT * FROM location");
+<select name="location">
 
-while($row = mysqli_fetch_assoc($loc)){
-?>
-
-<option value="<?= $row['Location_ID']; ?>">
-    <?= $row['Locationname']; ?>
-</option>
-
-<?php } ?>
+<option value="1">Agusan Canyon</option>
+<option value="2">Alae</option>
+<option value="3">Dahilayan</option>
+<option value="4">Damilag</option>
+<option value="5">Diclum</option>
+<option value="6">Guilang-Guilang</option>
+<option value="7">Kalugmanan</option>
+<option value="8">Lindaban</option>
+<option value="9">Lingion</option>
+<option value="10">Lunocan</option>
+<option value="11">Maluko</option>
+<option value="12">Mambatangan</option>
+<option value="13">Mampayag</option>
+<option value="14">Mantibugao</option>
+<option value="15">Minsuro</option>
+<option value="16">San Miguel</option>
+<option value="17">Sankanan</option>
+<option value="18">Santiago</option>
+<option value="19">Santo Niño</option>
+<option value="20">Tankulan</option>
+<option value="21">Ticala</option>
 
 </select>
 
@@ -167,17 +179,13 @@ while($row = mysqli_fetch_assoc($loc)){
 
 <select name="day">
 
-<?php
-$day = mysqli_query($conn, "SELECT * FROM day");
-
-while($row = mysqli_fetch_assoc($day)){
-?>
-
-<option value="<?= $row['Day_ID']; ?>">
-    <?= $row['Dayname']; ?>
-</option>
-
-<?php } ?>
+<option value="1">Monday</option>
+<option value="2">Tuesday</option>
+<option value="3">Wednesday</option>
+<option value="4">Thursday</option>
+<option value="5">Friday</option>
+<option value="6">Saturday</option>
+<option value="7">Sunday</option>
 
 </select>
 
@@ -185,17 +193,9 @@ while($row = mysqli_fetch_assoc($day)){
 
 <select name="target">
 
-<?php
-$target = mysqli_query($conn, "SELECT * FROM target");
-
-while($row = mysqli_fetch_assoc($target)){
-?>
-
-<option value="<?= $row['Target_ID']; ?>">
-    <?= $row['Targetname']; ?>
-</option>
-
-<?php } ?>
+<option value="1">Recyclable</option>
+<option value="2">Biodegradable</option>
+<option value="3">Non-Biodegradable</option>
 
 </select>
 
@@ -203,17 +203,8 @@ while($row = mysqli_fetch_assoc($target)){
 
 <select name="importance">
 
-<?php
-$importance = mysqli_query($conn, "SELECT * FROM importance");
-
-while($row = mysqli_fetch_assoc($importance)){
-?>
-
-<option value="<?= $row['Importance_ID']; ?>">
-    <?= $row['Level']; ?>
-</option>
-
-<?php } ?>
+<option value="1">Priority</option>
+<option value="2">Non-Priority</option>
 
 </select>
 
