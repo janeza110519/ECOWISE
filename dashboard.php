@@ -129,6 +129,32 @@ canvas{
     padding:20px;
 }
 
+.table-box{
+    background:white;
+    color:black;
+    padding;10px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+td button{
+    padding:5px 10px;
+    margin:2px;
+    cursor:pointer;
+}
+
+canvas{
+    background:white;
+    margin-top:20px;
+    padding: 20px;
+    max-height:400px;
+}
+
 </style>
 </head>
 
@@ -146,7 +172,7 @@ canvas{
 <h2>Maps</h2>
 
 <form method="POST">
-    
+
 
 <select name="location">
 
@@ -268,6 +294,10 @@ while($row = mysqli_fetch_assoc($result)){
 
 <a href="delete.php?id=<?= $row['Task_ID']; ?>">
 <button>Delete</button>
+</a>
+
+<a href="move.php?id=<?= $row['Task_ID']; ?>">
+<button>Move</button>
 </a>
 
 </td>
