@@ -37,6 +37,26 @@ if(isset($_POST['add_task'])){
 
     header("Location: dashboard.php");
 }
+
+/*
+FETCH CHART DATA DIRECTLY
+*/
+$chartQuery = "
+    SELECT location.Locationname, COUNT(*) as total 
+    FROM task 
+    INNER JOIN location ON task.Location_ID = location.Location_ID 
+    WHERE task.Status='Accomplished' 
+    GROUP BY location.Locationname
+";
+$chartResult = mysqli_query($conn, $chartQuery);
+
+$labels = [];
+$counts = [];
+
+while($row = mysqli_fetch_assoc($chartResult)){
+    $labels[] = $row['Locationname'];
+    $counts[] = $row['total'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -333,39 +353,31 @@ while($row = mysqli_fetch_assoc($result)){
 </div>
 
 <script>
-
-fetch('chart_data.php')
-.then(response => response.json())
-.then(data => {
-
-    let labels = [];
-    let values = [];
-
-    data.forEach(item => {
-
-        labels.push(item.Locationname);
-        values.push(item.total);
-
-    });
+    // Injecting PHP arrays directly into JS variables
+    const labels = <?php echo json_encode($labels); ?>;
+    const values = <?php echo json_encode($counts); ?>;
 
     new Chart(document.getElementById('myChart'), {
-
         type: 'bar',
-
         data: {
-
             labels: labels,
-
             datasets: [{
                 label: 'Accomplished per Barangay',
-                data: values
+                data: values,
+                backgroundColor: '#32d74b', // Optional: adds color to the bars
+                borderWidth: 1
             }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
-
     });
-
-});
-
 </script>
 
 </body>
