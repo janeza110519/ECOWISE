@@ -263,6 +263,20 @@ canvas{
 
 <?php
 
+/*
+SQL QUERY FOR DISPLAYING TASK DATA
+
+The task table only stores IDs such as:
+- Location_ID
+- Day_ID
+- Target_ID
+- Importance_ID
+
+INNER JOIN is used to connect the task table
+with other related tables in order to display
+the actual names instead of numeric IDs.
+*/
+
 $sql = "
 SELECT *
 FROM task

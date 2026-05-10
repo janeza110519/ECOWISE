@@ -1,6 +1,14 @@
 <?php
 include "connect.php";
 
+/*
+SQL QUERY FOR ANALYTICS CHART
+
+Purpose:
+Counts the number of accomplished tasks
+for each barangay/location.
+*/
+
 $sql = "
 
 SELECT
