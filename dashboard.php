@@ -266,10 +266,10 @@ canvas{
 $sql = "
 SELECT *
 FROM task
-JOIN location ON task.Location_ID = location.Location_ID
-JOIN day ON task.Day_ID = day.Day_ID
-JOIN target ON task.Target_ID = target.Target_ID
-JOIN importance ON task.Importance_ID = importance.Importance_ID
+INNER JOIN location ON task.Location_ID = location.Location_ID
+INNER JOIN day ON task.Day_ID = day.Day_ID
+INNER JOIN target ON task.Target_ID = target.Target_ID
+INNER JOIN importance ON task.Importance_ID = importance.Importance_ID
 WHERE User_ID = '$user_id'
 ";
 

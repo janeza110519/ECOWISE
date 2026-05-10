@@ -9,7 +9,7 @@ COUNT(*) as total
 
 FROM task
 
-JOIN location
+INNER JOIN location
 ON task.Location_ID = location.Location_ID
 
 WHERE task.Status='Accomplished'
