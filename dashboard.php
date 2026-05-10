@@ -41,6 +41,15 @@ if(isset($_POST['add_task'])){
 /*
 FETCH CHART DATA BY WASTE TYPE
 */
+
+/*PURPOSE: Link the "task table" with the "target table" to get the name of the waste type
+(e.g., "Recyclable") instead of of just the target-ID number.
+*/
+
+/*The Join: Matches the ID in 'tasks' 
+to the primary key in 'target'
+*/
+
 $chartQuery = "
     SELECT target.Targetname, COUNT(*) as total 
     FROM task 
@@ -296,6 +305,13 @@ The task table only stores IDs such as:
 INNER JOIN is used to connect the task table
 with other related tables in order to display
 the actual names instead of numeric IDs.
+*/
+
+/*
+Join 1 Location: Replaces Location_ID with 'Locationname' (e.g., 'Tankulan')
+Join 2 Task_day: Replaces Day_ID with 'Dayname' (e.g., 'Monday')
+Join 3 Task_target: Replaces Target_ID with 'Targetname' (e.g., 'Biodegradable')
+Join 4 Task_importance: Replaces Importance_ID with 'Level' (e.g., 'Priority')
 */
 
 $sql = "
