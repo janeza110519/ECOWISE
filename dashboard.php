@@ -338,20 +338,38 @@ while($row = mysqli_fetch_assoc($result)){
 <td><?= $row['Status']; ?></td>
 
 <td>
+  <a href="done.php?id=<?= $row['Task_ID']; ?>" 
+     onclick="return confirmDone();">
+    <button>Done</button>
+  </a>
 
-<a href="done.php?id=<?= $row['Task_ID']; ?>">
-<button>Done</button>
-</a>
+  <a href="delete.php?id=<?= $row['Task_ID']; ?>" 
+     onclick="return confirmDelete();">
+    <button>Delete</button>
+  </a>
 
-<a href="delete.php?id=<?= $row['Task_ID']; ?>">
-<button>Delete</button>
-</a>
-
-<a href="move.php?id=<?= $row['Task_ID']; ?>">
-<button>Move</button>
-</a>
-
+  <a href="move.php?id=<?= $row['Task_ID']; ?>" 
+     onclick="return confirmMove();">
+    <button>Move</button>
+  </a>
 </td>
+
+<script>
+  function confirmDone() {
+    // alert() shows the message and an "OK" button
+    alert("Accomplished successfully!");
+    return true; // Proceeds to done.php
+  }
+
+  function confirmDelete() {
+    // confirm() shows "OK" (Yes) and "Cancel" (No)
+    return confirm("Are you sure you want to delete?");
+  }
+
+  function confirmMove() {
+    return confirm("Are you sure you want to move the task?");
+  }
+</script>
 
 </tr>
 
