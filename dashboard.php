@@ -39,14 +39,14 @@ if(isset($_POST['add_task'])){
 }
 
 /*
-FETCH CHART DATA DIRECTLY
+FETCH CHART DATA BY WASTE TYPE
 */
 $chartQuery = "
-    SELECT location.Locationname, COUNT(*) as total 
+    SELECT target.Targetname, COUNT(*) as total 
     FROM task 
-    INNER JOIN location ON task.Location_ID = location.Location_ID 
+    INNER JOIN target ON task.Target_ID = target.Target_ID 
     WHERE task.Status='Accomplished' 
-    GROUP BY location.Locationname
+    GROUP BY target.Targetname
 ";
 $chartResult = mysqli_query($conn, $chartQuery);
 
@@ -54,9 +54,10 @@ $labels = [];
 $counts = [];
 
 while($row = mysqli_fetch_assoc($chartResult)){
-    $labels[] = $row['Locationname'];
+    $labels[] = $row['Targetname'];
     $counts[] = $row['total'];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -353,27 +354,51 @@ while($row = mysqli_fetch_assoc($result)){
 </div>
 
 <script>
-    // Injecting PHP arrays directly into JS variables
+
     const labels = <?php echo json_encode($labels); ?>;
     const values = <?php echo json_encode($counts); ?>;
 
     new Chart(document.getElementById('myChart'), {
-        type: 'bar',
+        type: 'bar', // You could also use 'pie' or 'doughnut' for a more "Dashboard" look
         data: {
             labels: labels,
             datasets: [{
-                label: 'Accomplished per Barangay',
+                label: 'Barangays with Collected Waste',
                 data: values,
-                backgroundColor: '#32d74b', // Optional: adds color to the bars
-                borderWidth: 1
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.7)', // Teal/Green
+                    'rgba(54, 162, 235, 0.7)', // Blue
+                    'rgba(255, 99, 132, 0.7)'  // Red/Pink
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // Hide legend since we have labels on the axis
+                },
+                title: {
+                    display: true,
+                    text: 'Waste Collection Summary (Accomplished Tasks)',
+                    color: '#333',
+                    font: { size: 18 }
+                }
+            },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1, // Since it's a count of barangays, no decimals
+                        precision: 0
+                    }
                 }
             }
         }
