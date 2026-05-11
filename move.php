@@ -3,7 +3,7 @@ include "connect.php";
 
 $id = $_GET['id'];
 
-mysqli_querry($conn,"
+mysqli_query($conn,"
 UPDATE task
 SET Status='Moved'
 WHERE Task_ID='$id'
