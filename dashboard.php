@@ -267,9 +267,16 @@ canvas{
 
 </form>
 
-<a href="logout.php">
-<button>Logout</button>
+<a href="logout.php" onclick="return confirmLogout();">
+  <button>Logout</button>
 </a>
+
+<script>
+  function confirmLogout() {
+    // confirm() returns true for "OK" and false for "Cancel"
+    return confirm("Are you sure you want to logout?");
+  }
+</script>
 
 </div>
 
